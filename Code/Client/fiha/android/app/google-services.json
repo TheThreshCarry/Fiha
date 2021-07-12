@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "277175449891",
+    "project_id": "fiha-1876b",
+    "storage_bucket": "fiha-1876b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277175449891:android:118f6d4c35c82dedfbb496",
+        "android_client_info": {
+          "package_name": "com.thethreshcarry.fiha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277175449891-0v53t93ss3te12c9mubkuvei1lrsftj3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh0y29Dt1ZnqarsP0-TfQI9XGRftPp_j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277175449891-0v53t93ss3te12c9mubkuvei1lrsftj3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
