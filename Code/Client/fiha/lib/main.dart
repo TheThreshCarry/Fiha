@@ -1,11 +1,29 @@
 import 'dart:ui';
 
+import 'package:fiha/services/dataHandeler.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import "services/locationHandeler.dart";
 import 'package:flutter/services.dart' show rootBundle;
+//My Functions
+
+DataHandeler? dataHandeler;
+Position? position;
 
 void main() {
   runApp(MyApp());
+}
+
+Future<void> initiliazeApp() async {
+  await Firebase.initializeApp().whenComplete(() async {
+    Position location = await determinePosition().then((value) {
+      return position = value;
+    });
+    dataHandeler = DataHandeler();
+    dataHandeler?.getEvents();
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Fiha',
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
@@ -36,8 +54,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? _mapStyle;
   GoogleMapController? mapController;
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  CameraPosition _cameraPosition = CameraPosition(
+    target: LatLng(36.7642, 3.188),
     zoom: 14.4746,
   );
 
@@ -93,20 +111,37 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: Stack(
-          children: [
-            Container(
-              height: size.height,
-              width: size.width,
-              color: Colors.red,
-              child: GoogleMap(
-                  initialCameraPosition: _kGooglePlex,
-                  onMapCreated: (GoogleMapController controller) {
-                    mapController = controller;
-                    mapController?.setMapStyle(_mapStyle);
-                  }),
-            )
-          ],
+        body: FutureBuilder(
+          future: initiliazeApp(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              _cameraPosition = CameraPosition(
+                  target: LatLng(position!.latitude, position!.longitude),
+                  zoom: 11);
+
+              return Stack(
+                children: [
+                  Container(
+                    height: size.height,
+                    width: size.width,
+                    color: Colors.red,
+                    child: GoogleMap(
+                        initialCameraPosition: _cameraPosition,
+                        onMapCreated: (GoogleMapController controller) {
+                          mapController = controller;
+                          mapController?.setMapStyle(_mapStyle);
+                        }),
+                  )
+                ],
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return Center(child: CircularProgressIndicator());
+          },
         ),
       ),
     );

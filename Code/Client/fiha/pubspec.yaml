@@ -27,6 +27,9 @@ dependencies:
   geolocator:
   google_fonts: ^1.1.2
   google_maps_flutter:
+  firebase_core: "^1.4.0"
+  cloud_firestore: ^2.4.0
+  geoflutterfire: ^3.0.1
   flutter_riverpod: ^1.0.0-dev.5
   intl:
   dio:
