@@ -1,8 +1,14 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fiha/modals/Event.dart';
+import 'package:fiha/screens/eventPage.dart';
 import 'package:fiha/services/dataHandeler.dart';
+import 'package:fiha/services/iconsHandeler.dart';
+import 'package:fiha/widgets/GlassDrawer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "services/locationHandeler.dart";
@@ -11,18 +17,68 @@ import 'package:flutter/services.dart' show rootBundle;
 
 DataHandeler? dataHandeler;
 Position? position;
+List<Marker> markers = [];
+List<Event> events = [];
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+Map<int, BitmapDescriptor> iconsMap = {};
+
+CameraPosition _cameraPosition = CameraPosition(
+  target: LatLng(36.7642, 3.188),
+  zoom: 14.4746,
+);
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
-Future<void> initiliazeApp() async {
+//Data
+Future<void> initiliazeApp(context) async {
   await Firebase.initializeApp().whenComplete(() async {
-    Position location = await determinePosition().then((value) {
+    await determinePosition().then((value) {
+      _cameraPosition = CameraPosition(
+          target: LatLng(value.latitude, value.longitude), zoom: 14.4746);
       return position = value;
     });
     dataHandeler = DataHandeler();
+    iconsMap = IconHandeler.getIcons();
     dataHandeler?.getEvents();
+  });
+}
+
+//Set Markers
+
+//MapResultsToMarkers
+void dataToMarkers(List<Event> results) {
+  print(results.length);
+  markers = [];
+  results.forEach((event) {
+    GeoPoint point = event.point;
+    markers.add(
+      Marker(
+          markerId: MarkerId(point.hashCode.toString()),
+          position: LatLng(point.latitude, point.longitude),
+          icon: iconsMap[event.type]!,
+          infoWindow: InfoWindow(title: event.name, snippet: event.description),
+          //Action on Tap
+          onTap: () {
+            navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => EventPage(event: event),
+              ),
+            );
+          }),
+    );
+
+    //Tets Marker for looking at positoion
+    markers.add(Marker(
+      markerId: MarkerId("32323264"),
+      position: LatLng(position!.latitude, position!.longitude),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+      onTap: () {
+        DataHandeler dataHandeler = new DataHandeler();
+        dataHandeler.getEvents();
+      },
+    ));
   });
 }
 
@@ -33,6 +89,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fiha',
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
@@ -54,10 +111,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? _mapStyle;
   GoogleMapController? mapController;
-  CameraPosition _cameraPosition = CameraPosition(
-    target: LatLng(36.7642, 3.188),
-    zoom: 14.4746,
-  );
 
   //Init
   @override
@@ -74,45 +127,14 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        drawerScrimColor: Color.fromARGB(10, 0, 0, 0),
-        drawer: Container(
-          height: size.height,
-          width: size.width * 0.6,
-          decoration: BoxDecoration(
-            color: Color.fromARGB(70, 200, 200, 200),
-            boxShadow: [],
-          ),
-          child: Stack(
-            children: [
-              SizedBox(
-                child: ClipRRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 5.0,
-                      sigmaY: 5.0,
-                    ),
-                    child: Container(),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 30.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 50.0,
-                      width: size.width * 0.6,
-                      color: Colors.red.withOpacity(0.3),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+        extendBodyBehindAppBar: true,
+        drawerScrimColor: Color.fromARGB(10, 50, 50, 50),
+        drawer: GlassDrawer(size: size),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
         ),
         body: FutureBuilder(
-          future: initiliazeApp(),
+          future: initiliazeApp(context),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               _cameraPosition = CameraPosition(
@@ -124,13 +146,27 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: size.height,
                     width: size.width,
-                    color: Colors.red,
-                    child: GoogleMap(
-                        initialCameraPosition: _cameraPosition,
-                        onMapCreated: (GoogleMapController controller) {
-                          mapController = controller;
-                          mapController?.setMapStyle(_mapStyle);
-                        }),
+                    child: StreamBuilder(
+                      stream: dataHandeler!.dataStream,
+                      builder: (context, snap) {
+                        if (snap.hasData) {
+                          return GoogleMap(
+                            initialCameraPosition: _cameraPosition,
+                            onMapCreated: (GoogleMapController controller) {
+                              mapController = controller;
+                              //mapController?.setMapStyle(_mapStyle);
+                            },
+                            markers: markers.toSet(),
+                          );
+                        } else {
+                          return Container(
+                            height: size.height,
+                            width: size.width,
+                            color: Colors.white,
+                          );
+                        }
+                      },
+                    ),
                   )
                 ],
               );
@@ -147,3 +183,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+//Drawer Class For my Custom Drawer
