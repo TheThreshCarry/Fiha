@@ -58,7 +58,9 @@ void dataToMarkers(List<Event> results) {
           markerId: MarkerId(point.hashCode.toString()),
           position: LatLng(point.latitude, point.longitude),
           icon: iconsMap[event.type]!,
+          /*
           infoWindow: InfoWindow(title: event.name, snippet: event.description),
+          */
           //Action on Tap
           onTap: () {
             navigatorKey.currentState!.push(

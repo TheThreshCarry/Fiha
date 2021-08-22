@@ -11,9 +11,10 @@ class Event {
   final int actionType;
   final GeoPoint point;
   final String geohash;
+  final String phoneNumber;
 
   Event(this.name, this.organizer, this.description, this.price, this.type,
-      this.actionType, this.point, this.geohash);
+      this.actionType, this.point, this.geohash, this.phoneNumber);
 
   Map<String, dynamic> toMap() {
     return {
@@ -25,6 +26,7 @@ class Event {
       'actionType': actionType,
       'point': {"lat": point.latitude, "long": point.longitude},
       'geohash': geohash,
+      'phoneNumber': phoneNumber,
     };
   }
 
@@ -38,6 +40,7 @@ class Event {
       map['actionType'],
       map['position']['geopoint'],
       map['geohash'],
+      map['phoneNumber'],
     );
   }
   factory Event.fromObject(Object? object) {
@@ -51,6 +54,7 @@ class Event {
       map['submitedAction'],
       map['position']['geopoint'],
       map['position']['geohash'],
+      map['phoneNumber'],
     );
   }
 
