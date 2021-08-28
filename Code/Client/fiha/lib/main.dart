@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fiha/modals/Event.dart';
 import 'package:fiha/screens/eventPage.dart';
@@ -8,7 +7,6 @@ import 'package:fiha/services/iconsHandeler.dart';
 import 'package:fiha/widgets/GlassDrawer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "services/locationHandeler.dart";
@@ -20,7 +18,14 @@ Position? position;
 List<Marker> markers = [];
 List<Event> events = [];
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 Map<int, BitmapDescriptor> iconsMap = {};
+List<String> categories = ["Musique", "Nourriture", "Sport"];
+final Map<String, String> categoriesIcons = {
+  "Musique": 'assets/icons/music.png',
+  "Nourriture": 'assets/icons/restaurant.png',
+  "Sport": 'assets/icons/sport.png',
+};
 
 CameraPosition _cameraPosition = CameraPosition(
   target: LatLng(36.7642, 3.188),
@@ -28,7 +33,7 @@ CameraPosition _cameraPosition = CameraPosition(
 );
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(MyApp());
 }
 
 //Data
@@ -41,7 +46,7 @@ Future<void> initiliazeApp(context) async {
     });
     dataHandeler = DataHandeler();
     iconsMap = IconHandeler.getIcons();
-    dataHandeler?.getEvents();
+    dataHandeler?.getEvents(position!);
   });
 }
 
@@ -49,7 +54,6 @@ Future<void> initiliazeApp(context) async {
 
 //MapResultsToMarkers
 void dataToMarkers(List<Event> results) {
-  print(results.length);
   markers = [];
   results.forEach((event) {
     GeoPoint point = event.point;
@@ -78,7 +82,7 @@ void dataToMarkers(List<Event> results) {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       onTap: () {
         DataHandeler dataHandeler = new DataHandeler();
-        dataHandeler.getEvents();
+        dataHandeler.getEvents(position!);
       },
     ));
   });
@@ -97,7 +101,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => HomePage(),
       },
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
+        fontFamily: "Poppins",
       ),
     );
   }

@@ -1,21 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fiha/main.dart';
 import 'package:fiha/modals/Event.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-
-final dataHandelerProvider = Provider<DataHandeler>((ref) => DataHandeler());
+import 'package:geolocator/geolocator.dart';
 
 class DataHandeler {
   final geo = Geoflutterfire();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Stream<List<DocumentSnapshot>> dataStream = Stream.empty();
   //getEvents Function
-  void getEvents() async {
+  void getEvents(Position position) async {
     var eventRef = _firestore.collection("events");
-
-    GeoFirePoint center = geo.point(latitude: 36.3733015, longitude: 6.6218766);
-    double radius = 500;
+    GeoFirePoint center =
+        geo.point(latitude: position.latitude, longitude: position.longitude);
+    double radius = 30;
     const String field = 'position';
 
     dataStream = geo
@@ -34,4 +32,6 @@ class DataHandeler {
       dataToMarkers(resultsEvents);
     });
   }
+
+  void filterEvents(Object options) {}
 }
