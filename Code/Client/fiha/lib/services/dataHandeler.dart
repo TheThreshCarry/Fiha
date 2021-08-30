@@ -13,7 +13,7 @@ class DataHandeler {
     var eventRef = _firestore.collection("events");
     GeoFirePoint center =
         geo.point(latitude: position.latitude, longitude: position.longitude);
-    double radius = 30;
+    double radius = 1000;
     const String field = 'position';
 
     dataStream = geo

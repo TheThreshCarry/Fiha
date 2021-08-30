@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:fiha/main.dart';
+import 'package:fiha/screens/filterPage.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -86,7 +87,7 @@ class _GlassDrawerState extends State<GlassDrawer> {
                   width: widget.size.width * 0.6,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
-                      color: Colors.white),
+                      color: Color(0xFFF1FAEE)),
                   child: Row(
                     children: [
                       Container(
@@ -115,7 +116,7 @@ class _GlassDrawerState extends State<GlassDrawer> {
                     style: TextStyle(
                         fontSize: 34.0,
                         fontWeight: FontWeight.w700,
-                        color: Colors.white),
+                        color: Color(0xFFF1FAEE)),
                   ),
                 ),
 
@@ -127,43 +128,64 @@ class _GlassDrawerState extends State<GlassDrawer> {
                     style: TextStyle(
                         fontSize: 26.0,
                         //fontWeight: FontWeight.w700,
-                        color: Colors.white),
+                        color: Color(0xFFF1FAEE)),
                   ),
                 ),
                 Container(
-                  height: 110.0,
+                  height: 130.0,
                   width: widget.size.width * 0.6,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ChoosingPad(
-                          text: "Début",
-                          onTapFunc: () {
-                            DatePicker.showDatePicker(context,
-                                showTitleActions: true,
-                                minTime: DateTime.now(),
-                                maxTime: DateTime(2025, 6, 7),
-                                onConfirm: (date) {
-                              startDate = date;
-                              print(date);
-                            },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.fr);
-                          }),
-                      ChoosingPad(
-                          text: "Fin",
-                          onTapFunc: () {
-                            DatePicker.showDatePicker(context,
-                                showTitleActions: true,
-                                minTime: DateTime.now(),
-                                maxTime: DateTime(2025, 6, 7),
-                                onConfirm: (date) {
-                              endDate = date;
-                              print(date);
-                            },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.fr);
-                          })
+                      Column(
+                        children: [
+                          ChoosingPad(
+                              text: "Début",
+                              onTapFunc: () {
+                                DatePicker.showDatePicker(context,
+                                    showTitleActions: true,
+                                    minTime: DateTime.now(),
+                                    maxTime: DateTime(2025, 6, 7),
+                                    onConfirm: (date) {
+                                  startDate = date;
+                                  setState(() {});
+                                  print(date);
+                                },
+                                    currentTime: DateTime.now(),
+                                    locale: LocaleType.fr);
+                              }),
+                          startDate != null
+                              ? Text(
+                                  startDate.toString().substring(0, 10),
+                                  style: TextStyle(color: Color(0xFFF1FAEE)),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          ChoosingPad(
+                              text: "Fin",
+                              onTapFunc: () {
+                                DatePicker.showDatePicker(context,
+                                    showTitleActions: true,
+                                    minTime: DateTime.now(),
+                                    maxTime: DateTime(2025, 6, 7),
+                                    onConfirm: (date) {
+                                  endDate = date;
+                                  setState(() {});
+                                },
+                                    currentTime: DateTime.now(),
+                                    locale: LocaleType.fr);
+                              }),
+                          endDate != null
+                              ? Text(
+                                  endDate.toString().substring(0, 10),
+                                  style: TextStyle(color: Color(0xFFF1FAEE)),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -176,18 +198,45 @@ class _GlassDrawerState extends State<GlassDrawer> {
                       children: [
                         Text(
                           "Prix",
-                          style: TextStyle(color: Colors.white, fontSize: 26.0),
+                          style: TextStyle(
+                              color: Color(0xFFF1FAEE), fontSize: 26.0),
+                        ),
+                        Text(
+                          "Prix Selectioné : ${price.toStringAsFixed(0)} DA",
+                          style: TextStyle(
+                              fontSize: 12.0, color: Color(0xFFF1FAEE)),
                         ),
                         Container(
-                          child: Slider(
-                            value: price,
-                            onChanged: (value) {
-                              setState(() {
-                                price = value;
-                              });
-                            },
-                            max: 5000.0,
-                            min: 0.0,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 30.0,
+                                child: Text(
+                                  "Gratuit",
+                                  style: TextStyle(
+                                      fontSize: 10.0, color: Color(0xFFF1FAEE)),
+                                ),
+                              ),
+                              Positioned(
+                                top: 30.0,
+                                right: 10.0,
+                                child: Text(
+                                  "5000 DA",
+                                  style: TextStyle(
+                                      fontSize: 10.0, color: Color(0xFFF1FAEE)),
+                                ),
+                              ),
+                              Slider(
+                                value: price,
+                                onChanged: (value) {
+                                  setState(() {
+                                    price = value;
+                                  });
+                                },
+                                max: 5000.0,
+                                min: 0.0,
+                              ),
+                            ],
                           ),
                         )
                       ],
@@ -200,11 +249,13 @@ class _GlassDrawerState extends State<GlassDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Prix",
-                        style: TextStyle(color: Colors.white, fontSize: 26.0),
+                        "Catégorie",
+                        style:
+                            TextStyle(color: Color(0xFFF1FAEE), fontSize: 26.0),
                       ),
                       Container(
                           child: DropdownButton(
+                        dropdownColor: Color(0xFF070c13),
                         onChanged: (value) {
                           setState(() {
                             category = value.toString();
@@ -223,13 +274,43 @@ class _GlassDrawerState extends State<GlassDrawer> {
                                     categoriesIcons[value]!,
                                   ),
                                 ),
-                                Text(value),
+                                Text(
+                                  value,
+                                  style: TextStyle(color: Color(0xFFF1FAEE)),
+                                ),
                               ],
                             ),
                           );
                         }).toList(),
                       ))
                     ],
+                  ),
+                ),
+                Expanded(
+                  child: SizedBox(),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Object options = {startDate, endDate, price, category};
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return FilterPage(options: options);
+                    }));
+                  },
+                  child: Container(
+                    height: 50.0,
+                    width: widget.size.width * 0.5,
+                    decoration: BoxDecoration(
+                        color: Color(0xFFE63946),
+                        borderRadius: BorderRadius.circular(20.0)),
+                    child: Center(
+                        child: Text(
+                      "Filtrez",
+                      style: TextStyle(
+                          color: Color(0xFFF1FAEE),
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w700),
+                    )),
                   ),
                 )
               ],
@@ -263,7 +344,7 @@ class ChoosingPad extends StatelessWidget {
             child: Icon(
               Icons.calendar_today,
               size: 50.0,
-              color: Colors.white,
+              color: Color(0xFFF1FAEE),
             ),
           ),
           SizedBox(
@@ -271,7 +352,7 @@ class ChoosingPad extends StatelessWidget {
           ),
           Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Color(0xFFF1FAEE)),
           )
         ],
       ),

@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                             initialCameraPosition: _cameraPosition,
                             onMapCreated: (GoogleMapController controller) {
                               mapController = controller;
-                              //mapController?.setMapStyle(_mapStyle);
+                              mapController?.setMapStyle(_mapStyle);
                             },
                             markers: markers.toSet(),
                           );
@@ -169,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                           return Container(
                             height: size.height,
                             width: size.width,
-                            color: Colors.white,
+                            color: Color(0xFFF1FAEE),
                           );
                         }
                       },

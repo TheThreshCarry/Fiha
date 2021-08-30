@@ -147,7 +147,7 @@ class EventPage extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.phone,
-                                  color: Colors.white,
+                                  color: Color(0xFFF1FAEE),
                                   size: 40.0,
                                 ),
                                 SizedBox(
@@ -158,7 +158,7 @@ class EventPage extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 35.0,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                                      color: Color(0xFFF1FAEE)),
                                 ),
                               ],
                             )),
@@ -173,7 +173,7 @@ class EventPage extends StatelessWidget {
                   child: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
-                  color: Colors.white,
+                  color: Color(0xFFF1FAEE),
                 ),
                 onPressed: () {
                   navigatorKey.currentState?.pop();
