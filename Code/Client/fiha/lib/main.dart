@@ -42,6 +42,7 @@ Future<void> initiliazeApp(context) async {
     await determinePosition().then((value) {
       _cameraPosition = CameraPosition(
           target: LatLng(value.latitude, value.longitude), zoom: 14.4746);
+      DataHandeler.position = value;
       return position = value;
     });
     dataHandeler = DataHandeler();

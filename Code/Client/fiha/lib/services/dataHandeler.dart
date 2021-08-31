@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fiha/main.dart';
-import 'package:fiha/modals/Event.dart';
+import 'package:fiha/modals/Filter.dart';
+import 'package:fiha/screens/filterPage.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:fiha/main.dart';
+import 'package:fiha/modals/Event.dart';
 
 class DataHandeler {
   final geo = Geoflutterfire();
+  static Position? position;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Stream<List<DocumentSnapshot>> dataStream = Stream.empty();
+  Stream<List<DocumentSnapshot>> filterDataStream = Stream.empty();
   //getEvents Function
   void getEvents(Position position) async {
     var eventRef = _firestore.collection("events");
@@ -33,5 +37,36 @@ class DataHandeler {
     });
   }
 
-  void filterEvents(Object options) {}
+  Future<void> getFilterEvents(Filter options) async {
+    var eventRef = _firestore.collection("events");
+
+    GeoFirePoint center = geo.point(
+        latitude: DataHandeler.position!.latitude,
+        longitude: DataHandeler.position!.longitude);
+    double radius = options.radius;
+    const String field = 'position';
+
+    filterDataStream = geo
+        .collection(collectionRef: eventRef)
+        .within(center: center, radius: radius, field: field);
+    List<Event> resultsEvents = [];
+    //Listen to the results
+    filterDataStream.listen((List<DocumentSnapshot> documentList) {
+      // got the geoquery data
+
+      documentList.forEach((element) {
+        //Convert to Event
+        Event event = Event.fromObject(element.data());
+        //Filter
+        if (event.endDate!.toDate().isBefore(options.endDate) &&
+            event.price < options.price &&
+            event.name
+                .contains(RegExp(options.inputText, caseSensitive: false))) {
+          resultsEvents.add(event);
+        }
+      });
+      print("finished");
+      getFilterResults(resultsEvents);
+    });
+  }
 }

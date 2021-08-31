@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:fiha/main.dart';
+import 'package:fiha/modals/Filter.dart';
 import 'package:fiha/screens/filterPage.dart';
+import 'package:fiha/services/dataHandeler.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +32,7 @@ class _GlassDrawerState extends State<GlassDrawer> {
   double price = 1000;
 
   String category = "Musique";
+  String inputText = '';
 
   void setRadius(double radius) {
     radius = radius;
@@ -99,6 +102,9 @@ class _GlassDrawerState extends State<GlassDrawer> {
                             filled: false,
                             border: InputBorder.none,
                           ),
+                          onChanged: (value) {
+                            inputText = value;
+                          },
                         ),
                       ),
                     ],
@@ -173,6 +179,7 @@ class _GlassDrawerState extends State<GlassDrawer> {
                                     maxTime: DateTime(2025, 6, 7),
                                     onConfirm: (date) {
                                   endDate = date;
+                                  print(endDate);
                                   setState(() {});
                                 },
                                     currentTime: DateTime.now(),
@@ -291,7 +298,10 @@ class _GlassDrawerState extends State<GlassDrawer> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Object options = {startDate, endDate, price, category};
+                    double radius = 5000;
+                    Filter options = Filter(startDate, endDate!, price,
+                        category, radius, inputText);
+                    DataHandeler().getFilterEvents(options);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return FilterPage(options: options);
