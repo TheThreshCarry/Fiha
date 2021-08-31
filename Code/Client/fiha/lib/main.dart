@@ -140,6 +140,7 @@ class _HomePageState extends State<HomePage> {
         drawer: GlassDrawer(size: size),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         body: FutureBuilder(
           future: initiliazeApp(context),
@@ -180,11 +181,9 @@ class _HomePageState extends State<HomePage> {
               );
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Center(child: Text('Loading...'));
             }
-            return Center(child: CircularProgressIndicator());
+            return Center(child: Text('Loading...'));
           },
         ),
       ),

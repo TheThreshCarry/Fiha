@@ -1,6 +1,6 @@
 class Filter {
   final DateTime startDate;
-  DateTime endDate;
+  DateTime? endDate;
   final double price;
   final String category;
   final String inputText;

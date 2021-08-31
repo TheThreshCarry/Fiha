@@ -1,0 +1,11 @@
+[{ "name" : "test Name Importer",
+    "description" : "This lorem ipsum description test description",
+    "price" : 20.0,
+    "type" : 1,
+    "position" : {
+        "lat" : 36,
+        "long": 36
+    },
+    "phoneNumber" : "+213549055634",
+    "startDate" : "04 Dec 1995 11:15:56 GMT+0100 (GMT+01:00)" 
+}]

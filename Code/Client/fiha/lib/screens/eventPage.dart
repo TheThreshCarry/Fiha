@@ -1,5 +1,6 @@
 import 'package:fiha/main.dart';
 import 'package:fiha/modals/Event.dart';
+import 'package:fiha/services/iconsHandeler.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,11 +12,6 @@ class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final Map<int, String> intToCategory = {
-      0: "Music",
-      1: "Sport",
-      2: "Culture",
-    };
 
     return Scaffold(
       body: SafeArea(
@@ -27,6 +23,7 @@ class EventPage extends StatelessWidget {
                   Container(
                       height: size.height * 0.35,
                       width: double.infinity,
+                      color: Colors.grey[200],
                       child: CarouselSlider(
                         items: event.imgs
                             .map((e) => Image.network(
@@ -56,14 +53,15 @@ class EventPage extends StatelessWidget {
                             Text(
                               event.name,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 24.0),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: size.height * 0.035),
                             ),
                             Text(
                               intToCategory[1]! + " / " + getDateString(event),
                               style: TextStyle(
                                   color: Color.fromARGB(255, 175, 175, 175),
                                   fontWeight: FontWeight.w300,
-                                  fontSize: 12.0),
+                                  fontSize: size.height * 0.015),
                             ),
                             SizedBox(
                               height: 10.0,
@@ -78,7 +76,7 @@ class EventPage extends StatelessWidget {
                                     event.description,
                                     style: TextStyle(
                                         //overflow: TextOverflow.ellipsis,
-                                        fontSize: 20.0),
+                                        fontSize: size.height * 0.025),
                                     //maxLines: 6,
                                   ),
                                 ),
@@ -108,7 +106,7 @@ class EventPage extends StatelessWidget {
                               event.price.toString() + "DA / Personnes",
                               style: TextStyle(
                                   color: Color.fromRGBO(50, 50, 50, 1.0),
-                                  fontSize: 18.0),
+                                  fontSize: size.height * 0.020),
                             ),
                             Text(
                               event.remainingPlaces.toString() +
@@ -126,7 +124,7 @@ class EventPage extends StatelessWidget {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            _launchURL(event);
+                            launchURL(event);
                           },
                           child: Container(
                             width: 150.0,
@@ -148,7 +146,7 @@ class EventPage extends StatelessWidget {
                                 Icon(
                                   Icons.phone,
                                   color: Color(0xFFF1FAEE),
-                                  size: 40.0,
+                                  size: size.height * 0.045,
                                 ),
                                 SizedBox(
                                   width: 10.0,
@@ -156,7 +154,7 @@ class EventPage extends StatelessWidget {
                                 Text(
                                   "Call",
                                   style: TextStyle(
-                                      fontSize: 35.0,
+                                      fontSize: size.height * 0.045,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xFFF1FAEE)),
                                 ),
@@ -196,9 +194,8 @@ class EventPage extends StatelessWidget {
       return event.startDate.toDate().toString().substring(0, 16);
     }
   }
-
-  void _launchURL(Event event) async =>
-      await canLaunch("tel:${event.phoneNumber}")
-          ? await launch("tel:${event.phoneNumber}")
-          : throw 'Could not launch tel:${event.phoneNumber}';
 }
+
+void launchURL(Event event) async => await canLaunch("tel:${event.phoneNumber}")
+    ? await launch("tel:${event.phoneNumber}")
+    : throw 'Could not launch tel:${event.phoneNumber}';

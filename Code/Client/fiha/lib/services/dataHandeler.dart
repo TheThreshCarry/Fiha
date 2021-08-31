@@ -45,6 +45,7 @@ class DataHandeler {
         longitude: DataHandeler.position!.longitude);
     double radius = options.radius;
     const String field = 'position';
+    print(radius);
 
     filterDataStream = geo
         .collection(collectionRef: eventRef)
@@ -58,10 +59,13 @@ class DataHandeler {
         //Convert to Event
         Event event = Event.fromObject(element.data());
         //Filter
-        if (event.endDate!.toDate().isBefore(options.endDate) &&
+        if (event.endDate!.toDate().isBefore(options.endDate!) &&
             event.price < options.price &&
-            event.name
-                .contains(RegExp(options.inputText, caseSensitive: false))) {
+            intToCategory[event.type] == options.category &&
+            (event.name.contains(
+                    RegExp(options.inputText, caseSensitive: false)) ||
+                event.description.contains(
+                    RegExp(options.inputText, caseSensitive: false)))) {
           resultsEvents.add(event);
         }
       });

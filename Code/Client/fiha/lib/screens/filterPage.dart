@@ -10,6 +10,12 @@ void getFilterResults(List<Event> results) {
   filterResult.value = results;
 }
 
+final Map<int, String> intToCategory = {
+  0: "Music",
+  1: "Sport",
+  2: "Culture",
+};
+
 class FilterPage extends StatefulWidget {
   final Filter options;
 
@@ -32,12 +38,26 @@ class _FilterPageState extends State<FilterPage> {
         ),
         body: Container(
           padding: EdgeInsets.all(20.0),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
             child: ValueListenableBuilder(
               valueListenable: filterResult,
               builder:
                   (BuildContext context, List<Event> value, Widget? child) {
-                return EventColumn(events: value);
+                if (value.isNotEmpty) {
+                  return EventColumn(events: value);
+                } else {
+                  return Center(
+                    child: Text(
+                      "Pas De Résultat...",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w100,
+                          fontSize: 20.0,
+                          color: Colors.grey[400]),
+                    ),
+                  );
+                }
               },
             ),
           ),
@@ -99,7 +119,7 @@ class EventCard extends StatelessWidget {
             ),
             Container(
               height: 100.0,
-              width: MediaQuery.of(context).size.width * 0.5,
+              width: MediaQuery.of(context).size.width * 0.45,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -109,19 +129,86 @@ class EventCard extends StatelessWidget {
                   Text(
                     event.name,
                     style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                    ),
+                        fontWeight: FontWeight.w700,
+                        fontSize: MediaQuery.of(context).size.height * 0.020),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
+                  ),
+                  Text(
+                    intToCategory[1]! + " / " + getDateString(event),
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 175, 175, 175),
+                        fontWeight: FontWeight.w400,
+                        fontSize: MediaQuery.of(context).size.height * 0.010),
                   ),
                   Text(
                     event.description,
                     style: TextStyle(
                         fontWeight: FontWeight.w100,
-                        fontSize: 10.0,
+                        fontSize: MediaQuery.of(context).size.height * 0.015,
                         color: Colors.grey),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 100.0,
+              width: MediaQuery.of(context).size.width * 0.55 - 150,
+              padding: EdgeInsets.only(top: 20.0),
+              child: Column(
+                children: [
+                  Text(
+                    "${event.price == 0 ? "Gratuit" : event.price.toStringAsFixed(0) + " DA"}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: MediaQuery.of(context).size.height * 0.015,
+                        color: Colors.grey[600]),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      launchURL(event);
+                    },
+                    child: Container(
+                      height: 30.0,
+                      width: 90.0,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFE63946),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color.fromRGBO(10, 10, 10, 240),
+                              blurRadius: 30.0,
+                              spreadRadius: 10.0)
+                        ],
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Center(
+                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.phone,
+                            color: Color(0xFFF1FAEE),
+                            size: MediaQuery.of(context).size.height * 0.020,
+                          ),
+                          SizedBox(
+                            width: 2.0,
+                          ),
+                          Text(
+                            "Call",
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.020,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFF1FAEE)),
+                          ),
+                        ],
+                      )),
+                    ),
                   ),
                 ],
               ),
@@ -130,5 +217,16 @@ class EventCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getDateString(Event event) {
+    if (event.endDate != null) {
+      return "Du : " +
+          event.startDate.toDate().toString().substring(0, 10) +
+          " Au " +
+          event.endDate!.toDate().toString().substring(0, 10);
+    } else {
+      return event.startDate.toDate().toString().substring(0, 10);
+    }
   }
 }
