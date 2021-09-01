@@ -81,10 +81,6 @@ void dataToMarkers(List<Event> results) {
       markerId: MarkerId("32323264"),
       position: LatLng(position!.latitude, position!.longitude),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-      onTap: () {
-        DataHandeler dataHandeler = new DataHandeler();
-        dataHandeler.getEvents(position!);
-      },
     ));
   });
 }
@@ -181,9 +177,9 @@ class _HomePageState extends State<HomePage> {
               );
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Text('Loading...'));
+              return Center(child: CircularProgressIndicator());
             }
-            return Center(child: Text('Loading...'));
+            return Center(child: CircularProgressIndicator());
           },
         ),
       ),

@@ -11,7 +11,7 @@ void getFilterResults(List<Event> results) {
 }
 
 final Map<int, String> intToCategory = {
-  0: "Music",
+  0: "Musique",
   1: "Sport",
   2: "Culture",
 };
@@ -199,10 +199,10 @@ class EventCard extends StatelessWidget {
                             width: 2.0,
                           ),
                           Text(
-                            "Call",
+                            "Appeler",
                             style: TextStyle(
                                 fontSize:
-                                    MediaQuery.of(context).size.height * 0.020,
+                                    MediaQuery.of(context).size.height * 0.012,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFFF1FAEE)),
                           ),

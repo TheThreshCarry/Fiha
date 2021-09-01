@@ -1,11 +1,67 @@
-[{ "name" : "test Name Importer",
+[{ 
+    "name" : "Evenement Musique A Bab el 9antra",
     "description" : "This lorem ipsum description test description",
     "price" : 20.0,
-    "type" : 1,
+    "type" : 0,
     "position" : {
-        "lat" : 36,
-        "long": 36
+        "lat" : 36.36964540654173,
+        "long": 6.618160330686198
     },
     "phoneNumber" : "+213549055634",
-    "startDate" : "04 Dec 1995 11:15:56 GMT+0100 (GMT+01:00)" 
-}]
+    "startDate" : "2 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
+    "endDate" : "10 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
+    "remainingPlaces" : 150,
+    "totalPlaces" : 200,
+    "submitedAction" : 1,
+    "imgs": [
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080"
+    ]
+},
+{ 
+    "name" : "Evenement Musique A CHU",
+    "description" : "This lorem ipsum description test description",
+    "price" : 200.0,
+    "type" : 1,
+    "position" : {
+        "lat" : 36.37313546207582,
+        "long":  6.617988669267108
+    },
+    "phoneNumber" : "+213549055634",
+    "startDate" : "5 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
+    "endDate" : "15 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
+    "remainingPlaces" : 150,
+    "totalPlaces" : 200,
+    "submitedAction" : 1,
+    "imgs": [
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080"
+    ]
+},
+{ 
+    "name" : "Evenement Musique A CHU",
+    "description" : "This lorem ipsum description test description",
+    "price" : 200.0,
+    "type" : 0,
+    "position" : {
+        "lat" : 36.37054385160918, 
+        "long":  6.611422621772896
+    },
+    "phoneNumber" : "+213549055634",
+    "startDate" : "5 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
+    "endDate" : "15 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
+    "remainingPlaces" : 150,
+    "totalPlaces" : 200,
+    "submitedAction" : 1,
+    "imgs": [
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080",
+        "https://random.imagecdn.app/1920/1080"
+    ]
+}
+]

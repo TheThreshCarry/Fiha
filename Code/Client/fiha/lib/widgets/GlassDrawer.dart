@@ -31,7 +31,7 @@ class _GlassDrawerState extends State<GlassDrawer> {
 
   double price = 1000;
 
-  String category = "Musique";
+  String category = "-99";
   String inputText = '';
 
   void setRadius(double radius) {
@@ -267,7 +267,7 @@ class _GlassDrawerState extends State<GlassDrawer> {
                                 fontSize: widget.size.height * 0.035),
                           ),
                           Text(
-                            "Rayon Selectioné : ${radius.toStringAsFixed(0)} Km",
+                            "Rayon Selectioné : ${radius > 1 ? radius.toStringAsFixed(0) + " Km" : (radius * 1000).toStringAsFixed(0) + " M"} ",
                             style: TextStyle(
                                 fontSize: widget.size.height * 0.015,
                                 color: Color(0xFFF1FAEE)),
@@ -288,7 +288,7 @@ class _GlassDrawerState extends State<GlassDrawer> {
                                   top: 30.0,
                                   right: 10.0,
                                   child: Text(
-                                    "300 Km",
+                                    " < 100 Km",
                                     style: TextStyle(
                                         fontSize: widget.size.height * 0.015,
                                         color: Color(0xFFF1FAEE)),
@@ -301,9 +301,9 @@ class _GlassDrawerState extends State<GlassDrawer> {
                                       radius = value;
                                     });
                                   },
-                                  max: 300.0,
+                                  max: 100.0,
                                   min: 0.0,
-                                  divisions: 30,
+                                  divisions: 200,
                                 ),
                               ],
                             ),
@@ -332,26 +332,47 @@ class _GlassDrawerState extends State<GlassDrawer> {
                             });
                           },
                           value: category,
-                          items: categories.map((value) {
-                            return DropdownMenuItem(
-                              value: value,
+                          items: [
+                            DropdownMenuItem(
+                              value: "-99",
                               child: Row(
                                 children: [
                                   Container(
                                     height: 24.0,
                                     width: 24.0,
                                     child: Image.asset(
-                                      categoriesIcons[value]!,
+                                      'assets/icons/any.png',
                                     ),
                                   ),
                                   Text(
-                                    value,
+                                    "Toutes",
                                     style: TextStyle(color: Color(0xFFF1FAEE)),
                                   ),
                                 ],
                               ),
-                            );
-                          }).toList(),
+                            ),
+                            ...categories.map((value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 24.0,
+                                      width: 24.0,
+                                      child: Image.asset(
+                                        categoriesIcons[value]!,
+                                      ),
+                                    ),
+                                    Text(
+                                      value,
+                                      style:
+                                          TextStyle(color: Color(0xFFF1FAEE)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList()
+                          ],
                         ))
                       ],
                     ),

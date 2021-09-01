@@ -1,5 +1,6 @@
 import 'package:fiha/main.dart';
 import 'package:fiha/modals/Event.dart';
+import 'package:fiha/screens/filterPage.dart';
 import 'package:fiha/services/iconsHandeler.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -152,9 +153,9 @@ class EventPage extends StatelessWidget {
                                   width: 10.0,
                                 ),
                                 Text(
-                                  "Call",
+                                  "Appeler",
                                   style: TextStyle(
-                                      fontSize: size.height * 0.045,
+                                      fontSize: size.height * 0.03,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xFFF1FAEE)),
                                 ),

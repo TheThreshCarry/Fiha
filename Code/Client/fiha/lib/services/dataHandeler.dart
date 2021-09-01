@@ -17,7 +17,7 @@ class DataHandeler {
     var eventRef = _firestore.collection("events");
     GeoFirePoint center =
         geo.point(latitude: position.latitude, longitude: position.longitude);
-    double radius = 1000;
+    double radius = 20;
     const String field = 'position';
 
     dataStream = geo
@@ -45,7 +45,9 @@ class DataHandeler {
         longitude: DataHandeler.position!.longitude);
     double radius = options.radius;
     const String field = 'position';
-    print(radius);
+    if (options.radius == 100.0) {
+      options.radius = 5000;
+    }
 
     filterDataStream = geo
         .collection(collectionRef: eventRef)
@@ -58,10 +60,12 @@ class DataHandeler {
       documentList.forEach((element) {
         //Convert to Event
         Event event = Event.fromObject(element.data());
+        print(intToCategory[event.type]! + " and " + options.category);
         //Filter
         if (event.endDate!.toDate().isBefore(options.endDate!) &&
             event.price < options.price &&
-            intToCategory[event.type] == options.category &&
+            (intToCategory[event.type] == options.category ||
+                options.category == '-99') &&
             (event.name.contains(
                     RegExp(options.inputText, caseSensitive: false)) ||
                 event.description.contains(

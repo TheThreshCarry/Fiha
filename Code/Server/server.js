@@ -29,6 +29,12 @@ menu.forEach(function(event){
         },
         phoneNumber : event.phoneNumber,
         startDate : new Timestamp(Date.parse(event.startDate)/1000),
+        endDate : new Timestamp(Date.parse(event.endDate)/1000),
+        imgs : event.imgs,
+        remainingPlaces : event.remainingPlaces,
+        submitedAction : event.submitedAction,
+        totalPlaces : event.totalPlaces,
+
     }).then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
     })

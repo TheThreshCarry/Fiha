@@ -15,9 +15,3 @@ class IconHandeler {
     return icons;
   }
 }
-
-final Map<int, String> intToCategory = {
-  0: "Music",
-  1: "Sport",
-  2: "Culture",
-};
