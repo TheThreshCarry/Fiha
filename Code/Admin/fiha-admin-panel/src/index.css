@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  background-color: #21212e;
+  color: white;
+}
+.flex-container{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.google-button{
+  height: 50px;
+  width: 200px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  cursor: pointer;
+}
+#Avatar{
+  height: 10vh;
+  width: 10vh;
+}

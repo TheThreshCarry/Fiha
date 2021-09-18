@@ -1,67 +1,60 @@
-[{ 
-    "name" : "Evenement Musique A Bab el 9antra",
+[
+
+{
     "description" : "This lorem ipsum description test description",
-    "price" : 20.0,
-    "type" : 0,
-    "position" : {
-        "lat" : 36.36964540654173,
-        "long": 6.618160330686198
-    },
-    "phoneNumber" : "+213549055634",
-    "startDate" : "2 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
-    "endDate" : "10 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
-    "remainingPlaces" : 150,
-    "totalPlaces" : 200,
+    "imgs": ["https://random.imagecdn.app/1920/1080"],
+    "userID" : "JxGztvvwLlaFmxP4vroAfWY7Yc2",
+    "name": "Evenement Athena Medical Center",
+    "price": 2000,
+    "remainingPlaces" : 20,
+    "totalPlaces": 60,
+    "startDate" : "2021 nov 16 16:32",
+    "endDate" : "2021 dec 16 16:32",
     "submitedAction" : 1,
-    "imgs": [
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080"
-    ]
+    "type" : 2,
+    "position" : {
+        "lat" : "36.31260603829719",
+        "long" : "6.627541891470481"
+    },
+    "phoneNumber" : "+213 555223545"
+
 },
-{ 
-    "name" : "Evenement Musique A CHU",
+{
     "description" : "This lorem ipsum description test description",
-    "price" : 200.0,
-    "type" : 1,
-    "position" : {
-        "lat" : 36.37313546207582,
-        "long":  6.617988669267108
-    },
-    "phoneNumber" : "+213549055634",
-    "startDate" : "5 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
-    "endDate" : "15 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
-    "remainingPlaces" : 150,
-    "totalPlaces" : 200,
+    "imgs": ["https://random.imagecdn.app/1920/1080"],
+    "userID" : "JxGztvvwLlaFmxP4vroAfWY7Yc2",
+    "name": "Evenement CLinique Ibn Roched",
+    "price": 6500,
+    "remainingPlaces" : 20,
+    "totalPlaces": 60,
+    "startDate" : "2021 nov 16 16:32",
+    "endDate" : "2021 dec 16 16:32",
     "submitedAction" : 1,
-    "imgs": [
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080"
-    ]
+    "type" : 2,
+    "position" : {
+        "lat" : "36.328373424293865",
+        "long" : "6.5748418501443915"
+    },
+    "phoneNumber" : "+213 555223545"
+
 },
-{ 
-    "name" : "Evenement Musique A CHU",
+{
     "description" : "This lorem ipsum description test description",
-    "price" : 200.0,
-    "type" : 0,
-    "position" : {
-        "lat" : 36.37054385160918, 
-        "long":  6.611422621772896
-    },
-    "phoneNumber" : "+213549055634",
-    "startDate" : "5 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
-    "endDate" : "15 Sep 2021 11:15:56 GMT+0100 (GMT+01:00)",
-    "remainingPlaces" : 150,
-    "totalPlaces" : 200,
+    "imgs": ["https://random.imagecdn.app/1920/1080"],
+    "userID" : "JxGztvvwLlaFmxP4vroAfWY7Yc2",
+    "name": "Evenement Cirta Musuem",
+    "price": 0,
+    "remainingPlaces" : 30,
+    "totalPlaces": 120,
+    "startDate" : "2021 nov 16 16:32",
+    "endDate" : "2021 dec 16 16:32",
     "submitedAction" : 1,
-    "imgs": [
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080",
-        "https://random.imagecdn.app/1920/1080"
-    ]
+    "type" : 4,
+    "position" : {
+        "lat" : "36.365013353892714",
+        "long" : "6.606770865515139"
+    },
+    "phoneNumber" : "+213 555223545"
+
 }
 ]

@@ -13,7 +13,9 @@ void getFilterResults(List<Event> results) {
 final Map<int, String> intToCategory = {
   0: "Musique",
   1: "Sport",
-  2: "Culture",
+  2: "Restaurant",
+  3: "Literatture",
+  4: "Camping",
 };
 
 class FilterPage extends StatefulWidget {

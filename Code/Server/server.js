@@ -41,22 +41,6 @@ menu.forEach(function(event){
     .catch(function(error) {
         console.error("Error adding document: ", error);
     });
+    //addDoc(events, event);
 })
-    /*
-    await firestore.addDoc(firestore.collection('events'),{
-        name: event.name,
-        description: event.description,
-        price: event.price,
-        type: event.type,
-        position: {
-            "geohash" : geohash.encode(event.position.lat, event.position.long),
-            "geopoint" : new firestore.geopoint(event.position.lat, event.position.long),
-        },
-        phoneNumber : event.phoneNumber,
-        startDate : EventTarget.startDate,
-    }).then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-    });*/
+  

@@ -5,12 +5,15 @@ import 'package:fiha/screens/eventPage.dart';
 import 'package:fiha/services/dataHandeler.dart';
 import 'package:fiha/services/iconsHandeler.dart';
 import 'package:fiha/widgets/GlassDrawer.dart';
+import 'package:fiha/widgets/event_miniplayer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import "services/locationHandeler.dart";
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show SystemChrome, rootBundle;
 //My Functions
 
 DataHandeler? dataHandeler;
@@ -18,32 +21,51 @@ Position? position;
 List<Marker> markers = [];
 List<Event> events = [];
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+final selectedEventProvider = StateProvider<Event?>((ref) => null);
+final providerContainer = ProviderContainer();
 
 Map<int, BitmapDescriptor> iconsMap = {};
-List<String> categories = ["Musique", "Nourriture", "Sport"];
+List<String> categories = [
+  "Musique",
+  "Nourriture",
+  "Sport",
+  "Literatture",
+  "Camping"
+];
 final Map<String, String> categoriesIcons = {
   "Musique": 'assets/icons/music.png',
   "Nourriture": 'assets/icons/restaurant.png',
   "Sport": 'assets/icons/sport.png',
+  "Camping": 'assets/icons/camping.png',
+  "Literatture": 'assets/icons/book.png'
 };
 
 CameraPosition _cameraPosition = CameraPosition(
   target: LatLng(36.7642, 3.188),
-  zoom: 14.4746,
+  zoom: 12,
 );
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(UncontrolledProviderScope(
+    child: MyApp(),
+    container: providerContainer,
+  ));
 }
 
 //Data
-Future<void> initiliazeApp(context) async {
+Future<dynamic> initiliazeApp(context) async {
   await Firebase.initializeApp().whenComplete(() async {
     await determinePosition().then((value) {
+      print(value);
       _cameraPosition = CameraPosition(
-          target: LatLng(value.latitude, value.longitude), zoom: 14.4746);
+          target: LatLng(value.latitude, value.longitude), zoom: 12);
       DataHandeler.position = value;
       return position = value;
+    }).catchError((err) {
+      print(err);
     });
     dataHandeler = DataHandeler();
     iconsMap = IconHandeler.getIcons();
@@ -56,6 +78,7 @@ Future<void> initiliazeApp(context) async {
 //MapResultsToMarkers
 void dataToMarkers(List<Event> results) {
   markers = [];
+
   results.forEach((event) {
     GeoPoint point = event.point;
     markers.add(
@@ -63,9 +86,6 @@ void dataToMarkers(List<Event> results) {
           markerId: MarkerId(point.hashCode.toString()),
           position: LatLng(point.latitude, point.longitude),
           icon: iconsMap[event.type]!,
-          /*
-          infoWindow: InfoWindow(title: event.name, snippet: event.description),
-          */
           //Action on Tap
           onTap: () {
             navigatorKey.currentState!.push(
@@ -73,6 +93,8 @@ void dataToMarkers(List<Event> results) {
                 builder: (context) => EventPage(event: event),
               ),
             );
+            /*providerContainer.read(selectedEventProvider).state = event;
+            print(providerContainer.read(selectedEventProvider).state?.name);*/
           }),
     );
 
@@ -144,7 +166,7 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.connectionState == ConnectionState.done) {
               _cameraPosition = CameraPosition(
                   target: LatLng(position!.latitude, position!.longitude),
-                  zoom: 11);
+                  zoom: 14.5);
 
               return Stack(
                 children: [
@@ -172,10 +194,24 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                     ),
-                  )
+                  ),
+                  Consumer(builder: (context, ref, _) {
+                    Event? event = ref(selectedEventProvider).state;
+                    if (event != null) print("Actual Event : " + event.name);
+                    if (event != null) {
+                      return Positioned(
+                        child: EventMiniPlayer(event: event),
+                        bottom: 0.0,
+                        width: MediaQuery.of(context).size.width,
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  }),
                 ],
               );
             }
+
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             }

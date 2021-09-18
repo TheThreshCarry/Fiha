@@ -12,6 +12,10 @@ class IconHandeler {
     BitmapDescriptor.fromAssetImage(
             configuration, "assets/icons/restaurant.png")
         .then((value) => icons[2] = value);
+    BitmapDescriptor.fromAssetImage(configuration, "assets/icons/book.png")
+        .then((value) => icons[3] = value);
+    BitmapDescriptor.fromAssetImage(configuration, "assets/icons/camping.png")
+        .then((value) => icons[4] = value);
     return icons;
   }
 }

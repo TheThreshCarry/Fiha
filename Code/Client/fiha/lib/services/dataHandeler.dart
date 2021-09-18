@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fiha/modals/Filter.dart';
 import 'package:fiha/screens/filterPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:fiha/main.dart';
 import 'package:fiha/modals/Event.dart';
+import 'package:intl/intl.dart';
 
 class DataHandeler {
   final geo = Geoflutterfire();
@@ -37,6 +39,7 @@ class DataHandeler {
     });
   }
 
+  //Filters
   Future<void> getFilterEvents(Filter options) async {
     var eventRef = _firestore.collection("events");
 
@@ -47,6 +50,9 @@ class DataHandeler {
     const String field = 'position';
     if (options.radius == 100.0) {
       options.radius = 5000;
+    }
+    if (options.endDate == null) {
+      options.endDate = DateTime(2222, 9, 7, 17, 30);
     }
 
     filterDataStream = geo

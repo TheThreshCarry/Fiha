@@ -10,7 +10,13 @@ Future<Position> determinePosition() async {
     // Location services are not enabled don't continue
     // accessing the position and request users of the
     // App to enable the location services.
-    return Future.error('Location services are disabled.');
+    print("Service isn't enabled !");
+    await Geolocator.openLocationSettings();
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    while (!serviceEnabled) {
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      print("Waiting to Accept!");
+    }
   }
 
   permission = await Geolocator.checkPermission();
