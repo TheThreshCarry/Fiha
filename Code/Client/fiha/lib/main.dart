@@ -88,13 +88,13 @@ void dataToMarkers(List<Event> results) {
           icon: iconsMap[event.type]!,
           //Action on Tap
           onTap: () {
-            navigatorKey.currentState!.push(
+            /*navigatorKey.currentState!.push(
               MaterialPageRoute(
                 builder: (context) => EventPage(event: event),
               ),
-            );
-            /*providerContainer.read(selectedEventProvider).state = event;
-            print(providerContainer.read(selectedEventProvider).state?.name);*/
+            );*/
+            providerContainer.read(selectedEventProvider).state = event;
+            print(providerContainer.read(selectedEventProvider).state?.name);
           }),
     );
 

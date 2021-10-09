@@ -15,7 +15,6 @@ Future<Position> determinePosition() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     while (!serviceEnabled) {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      print("Waiting to Accept!");
     }
   }
 
