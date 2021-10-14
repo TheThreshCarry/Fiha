@@ -40,7 +40,7 @@ const LoginPage = () => {
       return (<div></div>);
     }else{
     return (
-        <div className="flex-container">
+        <div className="flex-container-home-page">
         <div className="google-button" onClick={() => {handleGoogleLogin(history)}}>Login With Google</div>
     </div>
     )}

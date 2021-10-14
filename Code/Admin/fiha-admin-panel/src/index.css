@@ -2,14 +2,38 @@ body {
   margin: 0;
   background-color: #21212e;
   color: white;
+  scrollbar-width: none;
 }
 .flex-container{
+  height: 70px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: #21212e;
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
+.flex-container-home-page{
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
+  color: #21212e;
+}
+.msg-container{
+  height: calc(100vh - 70px - 50px);
+  width: 100vw;
+  display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-top: 70px;
+
 }
 .google-button{
   height: 50px;
@@ -20,8 +44,58 @@ body {
   align-items: center;
   border-radius: 20px;
   cursor: pointer;
+  font-size: 20px;
+  margin: 10px;
+  color: white;
+  transition: 300ms;
+}
+.google-button:hover{
+  transform: scale(1.1);
 }
 #Avatar{
-  height: 10vh;
-  width: 10vh;
+  height: 5vh;
+  width: 5vh;
+  margin: 10px;
+}
+.msg{
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+}
+.msgAvatar{
+  margin: 10px;
+}
+.sender{
+  flex-direction: row-reverse;
+  
+}
+.recive{
+  flex-direction: row;
+}
+.msgrecive{
+  background-color: white;
+  padding: 15px;
+  border-radius: 20px;
+  color:#21212e;
+}
+.msgsender{
+  background-color: blue;
+  padding: 15px;
+  border-radius: 20px;
+}
+.inputform{
+  position: fixed;
+  background-color: #f3e2c1;
+  bottom: 0;
+  width: 100vw;
+  height: 50px;
+}
+.timestamp{
+  font-size: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: rgb(100, 100, 100);
 }
